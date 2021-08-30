@@ -1,0 +1,15 @@
+mysql:
+  user: root
+  password: d2d2263c6a3d26b7
+  host: 127.0.0.1
+  port: 3306
+  dbname: go-day
+  charset: utf8
+  parse_time: true
+  loc: Local
+redis:
+    host: 127.0.0.1
+    port: 6379
+    auth: 123456
+app:
+  name: goblog
