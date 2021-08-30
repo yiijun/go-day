@@ -10,7 +10,10 @@ golang 个人博客网站，使用golang编写对的一个练手项目，支持m
 #### 安装教程
 
 ```
-go buid -o go-day
+#设置代理
+go env -w GOPROXY=https://goproxy.cn,direct
+
+go build -o go-day
 
 ./go-day
 
