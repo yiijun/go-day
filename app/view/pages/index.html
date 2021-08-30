@@ -1,0 +1,130 @@
+{{ define "pages/index.html" }}
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="{{.data.currentCategory.Description}}">
+    <meta name="keywords" content="{{.data.currentCategory.Keyword}}">
+    <link rel="shortcut icon" href="/static/cactus/images/favicon.ico">
+    <link rel="icon" type="image/png" href="/static/cactus/images/favicon-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/cactus/images/apple-touch-icon.png">
+    <link rel="alternate" type="application/atom+xml" href="/feed/" title="离别歌" />
+    <title>{{.data.currentCategory.Name}} | {{ .config.title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.6.3/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" integrity="sha256-/8+sU56ayrJGahG9mmcUaNEghbavaceGybkdqO96Kk0=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/pagination.css">
+</head>
+<body>
+
+<div id="header-post">
+  <a id="menu-icon" href="#" class="active"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" class="active"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu" style="visibility: visible">
+    <span id="nav">
+      <ul>
+          <li><a href="/">主页</a></li>
+          <li><a href="javascript:history.back(-1)">返回</a></li>
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+        <ul>
+              <li><a class="icon" href="http://www.facebook.com/sharer.php?u={{.data.shar}}"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="https://twitter.com/share?url={{.data.shar}}&amp;text=About.Me"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="http://www.linkedin.com/shareArticle?url={{.data.shar}}&amp;{{.data.currentCategory.Name}}"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url={{.data.shar}}&amp;is_video=false&amp;description=About.Me"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="mailto:?subject=About.Me&amp;body=Check out this article: {{.data.shar}}"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="https://getpocket.com/save?url={{.data.shar}}&amp;{{.data.currentCategory.Name}}"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="http://reddit.com/submit?url={{.data.shar}}&amp;{{.data.currentCategory.Name}}"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="http://www.stumbleupon.com/submit?url={{.data.shar}}&amp;{{.data.currentCategory.Name}}"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="http://digg.com/submit?url={{.data.shar}}&amp;{{.data.currentCategory.Name}}"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+              <li><a class="icon" href="http://www.tumblr.com/share/link?url={{.data.shar}}&amp;name=About.Me&amp;description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+        </ul>
+    </div>
+
+  </span>
+</div>
+<div class="content index width mx-auto px2 my4">
+    <article class="post" itemscope itemtype="">
+    <header>
+        <h1 class="posttitle" itemprop="name headline">{{.data.currentCategory.Name}}</h1>
+        <div class="meta">
+          <span class="author" itemprop="author" itemscope>
+              <i class="fa fa-bookmark"></i>
+            <span itemprop="name"><a class="tag-link" href="/article">{{.data.currentCategory.Name}}</a></span>
+          </span>
+            <div class="postdate">
+                <time datetime="{{.data.currentCategory.CreateTime}}" itemprop="datePublished">
+                    {{.data.currentCategory.CreateTime}}
+                </time>
+            </div>
+        </div>
+    </header>
+    <div id="editor" class="content" itemprop="articleBody">
+        <textarea style="display:none;"></textarea>
+    </div>
+    </article>
+    {{template "public/comment" .}}
+</div>
+{{template "public/footer" .}}
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/main.js"></script>
+<!--markdown解析器-->
+<script src="/static/js/jquery.fancybox.pack.min.js"></script>
+<script src="/static/editor.md/lib/marked.min.js"></script>
+<script src="/static/editor.md/lib/raphael.min.js"></script>
+<script src="/static/editor.md/lib/prettify.min.js"></script>
+<script src="/static/editor.md/lib/underscore.min.js"></script>
+<script src="/static/editor.md/lib/sequence-diagram.min.js"></script>
+<script src="/static/editor.md/lib/flowchart.min.js"></script>
+<script src="/static/editor.md/lib/jquery.flowchart.min.js"></script>
+<script src="/static/editor.md/editormd.js"></script>
+<script>
+    $(function() {
+        editormd.markdownToHTML("editor", {
+            markdown        : {{.data.currentCategory.Content}} ,//+ "\r\n" + ,
+        //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
+        htmlDecode      : "style,script,iframe",  // you can filter tags decode
+            //toc             : false,
+            tocm            : true,    // Using [TOCM]
+            //tocContainer    : "#custom-toc-container", // 自定义 ToC 容器层
+            //gfm             : false,
+            //tocDropdown     : true,
+            // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
+            emoji           : true,
+            taskList        : true,
+            tex             : true,  // 默认不解析
+            flowChart       : true,  // 默认不解析
+            sequenceDiagram : true,  // 默认不解析
+    });
+    });
+    $(document).ready(function () {
+        $("article img").each(function (i, e) {
+            if(e.parentNode.tagName.toUpperCase() != 'A') {
+                $(e).wrap('<a href="'+escapeHtml(e.src)+'" class="fancybox"></a>');
+            } else {
+                $(e.parentNode).addClass('fancybox');
+            }
+        });
+        $('.fancybox').fancybox();
+    })
+</script>
+</body>
+</html>
+{{ end }}

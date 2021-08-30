@@ -1,0 +1,69 @@
+{{ define "article/index.html" }}
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="{{.data.currentCategory.Description}}">
+    <meta name="keywords" content="{{.data.currentCategory.Keyword}}">
+    <link rel="shortcut icon" href="/static/cactus/images/favicon.ico">
+    <link rel="icon" type="image/png" href="/static/cactus/images/favicon-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/cactus/images/apple-touch-icon.png">
+    <link rel="alternate" type="application/atom+xml" href="/feed/" title="离别歌" />
+    <title>{{.data.currentCategory.Name}} | {{ .config.title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.6.3/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" integrity="sha256-/8+sU56ayrJGahG9mmcUaNEghbavaceGybkdqO96Kk0=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/pagination.css">
+
+</head>
+<body>
+<div class="content index width mx-auto px2 my4">
+{{template "public/header" .}}
+
+<ul class="post-list">
+
+    {{range $i,$v :=.data.list}}
+    <li class="post-item">
+      <div class="meta">
+          
+          <time datetime="{{$v.CreateTime}}" itemprop="datePublished">
+              {{$v.ShowTime}}
+          </time>
+          
+      </div>
+      <span><a href="/detail/{{$v.Id}}.html" >{{$v.Title}}</a></span>
+    </li>
+    {{end}}
+
+</ul>
+
+<nav role="navigation">
+<ul class="cd-pagination pull-left">
+    {{strToHtml .data.page}}
+</ul>
+</nav>
+
+</div>
+
+
+{{template "public/footer" .}}
+
+<script src="/static/js/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="/static/js/main.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="static/js/58ce5fb94ab049b791b7df1bd66cc8c4.js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-FF5KPQ1CZ6');
+</script>
+
+</body>
+</html>
+{{ end }}

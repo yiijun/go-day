@@ -1,0 +1,104 @@
+{{ define "public/comment" }}
+<div id="reply-list">
+  <h1>评论</h1>
+  {{strToHtml .data.comments}}
+</div>
+
+<form  id="reply" name="reply">
+  <div class="well" id="errWell" style="display: none">
+    <ul class="errorlist">
+      <li><span id="errField">captcha</span>
+        <ul class="errorlist">
+          <li id="errMsg">验证码错误</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <textarea name="content" cols="40" rows="6" required id="id_content"></textarea>
+
+  <div class="row">
+    <div class="col-xs-4">
+      <input type="text" name="nickname" placeholder="昵称" maxlength="64" required id="id_nickname">
+    </div>
+    <div class="col-xs-4">
+      <input type="text" name="email" placeholder="QQ邮箱（可留空）" maxlength="254" id="id_email">
+    </div>
+    <div class="col-xs-4">
+      <input type="text" name="url" placeholder="链接（可留空）" maxlength="200" id="id_url">
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 8px">
+    <div class="col-xs-4">
+      <input autocomplete="off" id="id_captcha"  name="captcha" type="text" placeholder="验证码" />
+
+    </div>
+    <div class="col-xs-4">
+      <img id="captchaImg" style="background-color: #FFFFFF" src="/captcha" onclick="this.src='/captcha?v='+Math.random()" alt="Captcha image" class="captcha" height="25" />
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <input type="button" class="ui-button ui-button-sgreen" value="提交" onclick="handlePost();return false">
+  <input type="hidden" name="archive" value="{{.data.row.Id}}" id="id_archive">
+  <input type="hidden" name="parent" value="0" id="id_parent">
+  <input type="hidden" name="type" value="{{.data.type}}" id="id_type">
+</form>
+</div>
+
+<script>
+  function handlePost() {
+    let id_content = $("#id_content").val()
+    let id_nickname = $("#id_nickname").val()
+    let id_email = $("#id_email").val()
+    let id_url = $("#id_url").val()
+    let id_captcha = $("#id_captcha").val()
+    let id_archive = $("#id_archive").val()
+    if(!id_content){
+      $("#errWell").show()
+      $("#errField").text("content")
+      $("#errMsg").text("必须填写内容")
+      return false
+    }
+
+    if(!id_nickname){
+      $("#errWell").show()
+      $("#errField").text("nickname")
+      $("#errMsg").text("昵称必须填写")
+      return false
+    }
+
+    if(!id_captcha){
+      $("#errWell").show()
+      $("#errField").text("captcha")
+      $("#errMsg").text("验证码必须填写")
+      return false
+    }
+    $.ajax({
+      type:"post",
+      url:"/comment",
+      data:{
+        "content":id_content,
+        "nickname":id_nickname,
+        "email":id_email,
+        "url":id_url,
+        "captcha":id_captcha,
+        "archive":id_archive,
+        "parent":$("#id_parent").val(),
+        "type":$("#id_type").val(),
+      }, success:function (res) {
+        if(res.code != 200){
+          $("#errWell").show()
+          $("#errField").text("Msg")
+          $("#errMsg").text(res.msg)
+          document.getElementById('captchaImg').src = '/captcha?v='+Math.random();
+        }else{
+          $("#errWell").hide()
+          window.location.reload()
+          window.location.href="{{.data.load}}#reply"
+        }
+      }
+    })
+  }
+</script>
+{{end}}

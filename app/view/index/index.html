@@ -1,0 +1,67 @@
+{{ define "index/index.html" }}
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="{{ .config.description }}">
+    <meta name="keywords" content="{{ .config.keywords }}">
+    <link rel="shortcut icon" href="/static/cactus/images/favicon.ico">
+    <link rel="icon" type="image/png" href="/static/cactus/images/favicon-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/cactus/images/apple-touch-icon.png">
+    <link rel="alternate" type="application/atom+xml" href="/feed/" title="{{ .config.title }}" />
+    <title>{{.config.seotitle}}|{{ .config.title }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.6.3/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" integrity="sha256-/8+sU56ayrJGahG9mmcUaNEghbavaceGybkdqO96Kk0=" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/button.css">
+
+</head>
+<body>
+
+<div class="content index width mx-auto px2 my4">
+    {{template "public/header" .}}
+    <section id="about">
+        <p>{{strToHtml .config.persons}}</p>
+    </section>
+
+    <section id="search">
+        <span class="h1"><a href="#">Search</a></span>
+        <form action="/search" method="get">
+        <div class="row">
+            <div class="col-xs-8 col-md-4">
+                <input title="关键词" type="text" name="keyword" value="">
+            </div>
+            <div class="col-xs-4 col-md-2">
+                <button type="submit" class="ui-button ui-button-sgreen" >&nbsp;搜索&nbsp;</button>
+            </div>
+        </div>
+        </form>
+    </section>
+    <section id="writing">
+        <span class="h1"><a href="#">Archives</a></span>
+        <ul class="post-list">
+            {{range $i,$v :=.data.list}}
+            <li class="post-item">
+                <div class="meta">
+                    <time datetime="{{$v.CreateTime}}" itemprop="datePublished">
+                        {{$v.ShowTime}}
+                    </time>
+                </div>
+                <span>
+                    <a href="/detail/{{$v.Id}}.html" >{{$v.Title}}</a>
+                </span>
+            </li>
+            {{end}}
+        </ul>
+    </section>
+</div>
+{{template "public/footer" .}}
+<script src="/static/js/jquery.min.js"  crossorigin="anonymous"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
+{{ end }}
