@@ -1100,6 +1100,7 @@ article .content video {
   max-width: 100%;
   height: auto;
   display: block;
+  width: 100%;
 }
 article .content .video-container {
   position: relative;

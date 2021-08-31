@@ -30,6 +30,7 @@ func Routes() *gin.Engine {
 	r.GET("/article",controller.ListArticle)
 	r.GET("/pages",controller.ManagePages)
 	r.GET("/link",controller.ManagePages)
+	r.GET("/coding",controller.ManagePages)
 	r.GET("/search",controller.ListArticle)
 	return r
 }

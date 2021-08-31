@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/jinzhu/gorm"
 	"goblog/common"
 	"goblog/database"
 	"time"
@@ -46,6 +47,11 @@ func GetDetailArticle(id string) []*Row  {
 		Take(&row,id)
 	if query.Error !=nil{
 		panic(query.Error)
+	}
+	if err := database.Ins.Table("go_article").
+		Where("id = ?",id).
+		Update("click",gorm.Expr("click + ?",1)).Error;err !=nil{
+			panic(err)
 	}
 	return row
 }
