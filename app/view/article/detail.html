@@ -15,13 +15,11 @@
     <title>{{.data.row.Title}}-{{ .config.title }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.6.3/css/font-awesome.min.css" integrity="sha256-AIodEDkC8V/bHBkfyxzolUMw57jeQ9CauwhVW6YJ9CA=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flexboxgrid@6.3.1/dist/flexboxgrid.min.css" integrity="sha256-/8+sU56ayrJGahG9mmcUaNEghbavaceGybkdqO96Kk0=" crossorigin="anonymous">
-
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/code.css">
     <link rel="stylesheet" href="/static/css/button.css">
     <link rel="stylesheet" href="/static/css/pagination.css">
-    <link rel="stylesheet" href="/static/css/prism.css">
     <link href="/static/css/jquery.fancybox.min.css" rel="stylesheet">
 </head>
 <body>
@@ -85,15 +83,17 @@
         </div>
     </header>
     <div id="editor" class="content" itemprop="articleBody">
-        <textarea style="display:none;"></textarea>
+        <textarea style="display:none;">{{strToHtml .data.row.Content}}</textarea>
     </div>
     </article>
     {{template "public/comment" .}}
 </div>
 {{template "public/footer" .}}
+
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/main.js"></script>
 <!--markdown解析器-->
+<script src="/static/editor.md/editormd.js"></script>
 <script src="/static/js/jquery.fancybox.pack.min.js"></script>
 <script src="/static/editor.md/lib/marked.min.js"></script>
 <script src="/static/editor.md/lib/raphael.min.js"></script>
@@ -102,12 +102,13 @@
 <script src="/static/editor.md/lib/sequence-diagram.min.js"></script>
 <script src="/static/editor.md/lib/flowchart.min.js"></script>
 <script src="/static/editor.md/lib/jquery.flowchart.min.js"></script>
-<script src="/static/editor.md/editormd.js"></script>
-<script src="/static/js/prism.js"></script>
+<script src="/static/editor.md/lib/"></script>
+
+
 <script>
     $(function() {
        editormd.markdownToHTML("editor", {
-           markdown        : {{.data.row.Content}} ,//+ "\r\n" + ,
+           //markdown        :  {{strToHtml .data.row.Content}} ,//+ "\r\n" + ,
            //htmlDecode      : true,       // 开启 HTML 标签解析，为了安全性，默认不开启
            htmlDecode      : "style,script,iframe",  // you can filter tags decode
            //toc             : false,
@@ -117,10 +118,12 @@
            //tocDropdown     : true,
            // markdownSourceCode : true, // 是否保留 Markdown 源码，即是否删除保存源码的 Textarea 标签
            emoji           : true,
-           taskList        : true,
-           tex             : true,  // 默认不解析
-           flowChart       : true,  // 默认不解析
-           sequenceDiagram : true,  // 默认不解析
+           taskList        : false,
+           tex             : false,  // 默认不解析
+           flowChart       : false,  // 默认不解析
+           sequenceDiagram : false,  // 默认不解析
+           lineNumbers     : false,
+           autoHeight      : true,
         });
     });
     $(document).ready(function () {

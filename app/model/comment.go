@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"goblog/common"
 	"goblog/database"
+	"html"
 	"strconv"
 	"time"
 )
@@ -110,7 +111,7 @@ func AddCommentByArticle(c *gin.Context) bool {
 		Email:      c.PostForm("email"),
 		Ip:         c.Request.RemoteAddr,
 		Url:        c.PostForm("url"),
-		Body:       c.PostForm("content"),
+		Body:       html.EscapeString(c.PostForm("content")),
 		CreateTime: int(time.Now().Unix()),
 	}
 	exec := database.Ins.Table("go_comments").Create(&insert)
